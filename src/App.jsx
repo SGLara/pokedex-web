@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container } from '@mui/material';
-import RegionList from './components/RegionList';
+import Navigation from './components/Navigation';
 
 export default function App() {
   return (
@@ -15,7 +15,7 @@ export default function App() {
         borderColor: 'primary.dark',
       }}
     >
-      <RegionList />
+      <Navigation />
     </Container>
   );
 }
