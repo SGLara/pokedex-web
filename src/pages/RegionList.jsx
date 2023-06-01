@@ -4,6 +4,7 @@ import {
 import React, { useEffect } from 'react';
 import CreateIcon from '@mui/icons-material/Create';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export default function RegionList() {
   const [regions, setRegions] = React.useState([]);
@@ -46,6 +47,8 @@ export default function RegionList() {
                 disableElevation
                 size="small"
                 startIcon={<CreateIcon />}
+                component={Link}
+                to="/my-teams/create"
               >
                 Create Team
               </Button>
