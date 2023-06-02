@@ -5,9 +5,9 @@ import {
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-export default function Navbar() {
+// eslint-disable-next-line react/prop-types
+export default function Navbar({ isSignedIn, setIsSignedIn, firebaseAuth }) {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [auth, setAuth] = useState(true);
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -15,6 +15,18 @@ export default function Navbar() {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleLogOut = () => {
+    // eslint-disable-next-line react/prop-types
+    firebaseAuth.signOut()
+      .then(() => {
+        setIsSignedIn(false);
+        setAnchorEl(null);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -48,7 +60,7 @@ export default function Navbar() {
             My Teams
           </Button>
         </div>
-        {auth && (
+        {isSignedIn && (
         <div>
           <IconButton
             size="large"
@@ -66,7 +78,7 @@ export default function Navbar() {
               vertical: 'top',
               horizontal: 'right',
             }}
-            // keepMounted
+            keepMounted
             transformOrigin={{
               vertical: 'top',
               horizontal: 'right',
@@ -74,7 +86,7 @@ export default function Navbar() {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            <MenuItem>Log Out</MenuItem>
+            <MenuItem onClick={handleLogOut}>Log Out</MenuItem>
           </Menu>
         </div>
         )}

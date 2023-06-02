@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import { BrowserRouter } from 'react-router-dom';
 import App from './src/App';
@@ -13,8 +13,7 @@ const theme = createTheme({
   },
 });
 
-// eslint-disable-next-line no-undef
-ReactDOM.createRoot(document.getElementById('app')).render(
+const app = (
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <CssBaseline>
@@ -23,5 +22,8 @@ ReactDOM.createRoot(document.getElementById('app')).render(
         </BrowserRouter>
       </CssBaseline>
     </ThemeProvider>
-  </React.StrictMode>,
+  </React.StrictMode>
 );
+
+// eslint-disable-next-line no-undef
+ReactDOM.render(app, document.getElementById('app'));

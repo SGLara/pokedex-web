@@ -1,11 +1,13 @@
 import { Box, Paper, Typography } from '@mui/material';
 import React from 'react';
-import { FacebookLoginButton, GoogleLoginButton } from 'react-social-login-buttons';
+import { StyledFirebaseAuth } from 'react-firebaseui';
+import { Navigate } from 'react-router';
+import 'firebase/compat/auth';
 
-export default function Login() {
+// eslint-disable-next-line react/prop-types
+export default function Login({ isSignedIn, uiConfig, firebaseAuth }) {
   return (
     <Paper
-      elevation={8}
       variant="outlined"
       sx={{
         display: 'flex',
@@ -17,12 +19,20 @@ export default function Login() {
         border: '1px solid #ff0000',
       }}
     >
+      {
+        isSignedIn && (
+          <Navigate to="/regions" />
+        )
+      }
       <Typography variant="h5">
         Please Login to use this amazing app!
       </Typography>
       <Box>
-        <FacebookLoginButton />
-        <GoogleLoginButton />
+        <StyledFirebaseAuth
+          uiCallback={(ui) => ui.disableAutoSignIn()}
+          uiConfig={uiConfig}
+          firebaseAuth={firebaseAuth}
+        />
       </Box>
     </Paper>
   );
