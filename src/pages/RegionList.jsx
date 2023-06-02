@@ -6,11 +6,13 @@ import CreateIcon from '@mui/icons-material/Create';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
+const POKEAPI = `${import.meta.env.VITE_POKEAPI_URL}/region`;
+
 export default function RegionList() {
   const [regions, setRegions] = React.useState([]);
 
   useEffect(() => {
-    axios.get('https://pokeapi.co/api/v2/region')
+    axios.get(POKEAPI)
       .then((response) => {
         setRegions(response.data.results);
       })
