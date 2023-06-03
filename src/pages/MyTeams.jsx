@@ -1,144 +1,51 @@
 import {
-  Card, CardContent, Grid, Typography, Avatar, CardActions, AvatarGroup, CardActionArea,
+  Card, CardContent, Grid, Typography, Avatar, CardActions, AvatarGroup, Chip,
 } from '@mui/material';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import React from 'react';
-import { Link } from 'react-router-dom';
-
-const myTeams = [
-  {
-    id: 1,
-    name: 'Team 1',
-    pokemons: [
-      {
-        id: 25,
-        name: 'Pikachu',
-        avatar: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png',
-      },
-      {
-        id: 4,
-        name: 'Charmander',
-        avatar: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png',
-      },
-      {
-        id: 7,
-        name: 'Squirtle',
-        avatar: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png',
-      },
-      {
-        id: 1,
-        name: 'Bulbasaur',
-        avatar: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png',
-      },
-      {
-        id: 150,
-        name: 'Mewtwo',
-        avatar: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png',
-      },
-    ],
-  },
-  {
-    id: 2,
-    name: 'Team 2',
-    pokemons: [
-      {
-        id: 6,
-        name: 'Charizard',
-        avatar: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png',
-      },
-      {
-        id: 150,
-        name: 'Mewtwo',
-        avatar: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png',
-      },
-    ],
-  },
-  {
-    id: 3,
-    name: 'Team 3',
-    pokemons: [
-      {
-        id: 6,
-        name: 'Charizard',
-        avatar: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png',
-      },
-      {
-        id: 150,
-        name: 'Mewtwo',
-        avatar: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png',
-      },
-    ],
-  },
-  {
-    id: 4,
-    name: 'Team 4',
-    pokemons: [
-      {
-        id: 6,
-        name: 'Charizard',
-        avatar: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png',
-      },
-      {
-        id: 150,
-        name: 'Mewtwo',
-        avatar: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png',
-      },
-    ],
-  },
-  {
-    id: 5,
-    name: 'Team 5',
-    pokemons: [
-      {
-        id: 6,
-        name: 'Charizard',
-        avatar: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png',
-      },
-      {
-        id: 150,
-        name: 'Mewtwo',
-        avatar: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png',
-      },
-    ],
-  },
-];
+import React, { useEffect, useState } from 'react';
+import { useList } from 'react-firebase-hooks/database';
+import { db, ref } from '../services/firebase.config';
+import CreateTeamButton from '../components/CreateTeamButton';
 
 export default function MyTeams() {
+  const [snapshots] = useList(ref(db, 'my_teams'));
+  const [myTeams, setMyTeams] = useState([]);
+
+  useEffect(() => {
+    const teams = [];
+
+    snapshots.forEach((snapshot) => {
+      teams.push(snapshot.val());
+    });
+
+    setMyTeams(teams);
+  }, [snapshots]);
+
   return (
     <Grid container maxWidth="md" spacing={2}>
-      <Grid item xs={12} sm={6} md={4} lg={3}>
-        <Card sx={{
-          height: '100%',
-        }}
-        >
-          <CardActionArea
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: '100%',
-            }}
-            component={Link}
-            to="/my-teams/create"
-          >
-            <AddCircleIcon sx={{ color: 'gray', fontSize: 75 }} />
-          </CardActionArea>
-        </Card>
-      </Grid>
-
+      <CreateTeamButton />
       {
         myTeams.map((team) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={team.id}>
             <Card sx={{
               display: 'flex',
               flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
             }}
             >
+              <div style={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                width: '100%',
+                padding: '0.5rem',
+              }}
+              >
+                <Typography variant="h4">
+                  #
+                  {team.id}
+                </Typography>
+              </div>
               <CardContent>
                 <Typography
-                  variant="h6"
+                  variant="h5"
                   component="h6"
                   sx={{
                     textTransform: 'uppercase',
@@ -146,13 +53,36 @@ export default function MyTeams() {
                 >
                   {team.name}
                 </Typography>
+                <Typography
+                  variant="body2"
+                  component="p"
+                  sx={{
+                    pb: 2,
+                  }}
+                >
+                  {team.description}
+                </Typography>
+                <Chip
+                  label={team.type}
+                  size="small"
+                  sx={{
+                    backgroundColor: 'white',
+                    color: 'black',
+                  }}
+                />
               </CardContent>
-              <CardActions>
+              <CardActions sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: 3,
+              }}
+              >
+                {console.log(team.pokemons)}
                 {
                   team.pokemons.length > 1
                   && (
                     <AvatarGroup max={4}>
-
                       {
                         team.pokemons.map((pokemon) => (
                           <Avatar

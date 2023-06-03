@@ -1,0 +1,99 @@
+{
+    "my_teams": [
+        {
+            "id": 1,
+            "name": "Team 1",
+            "pokemons": [
+                {
+                    "id": 25,
+                    "name": "Pikachu",
+                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
+                },
+                {
+                    "id": 4,
+                    "name": "Charmander",
+                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png"
+                },
+                {
+                    "id": 7,
+                    "name": "Squirtle",
+                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png"
+                },
+                {
+                    "id": 1,
+                    "name": "Bulbasaur",
+                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"
+                },
+                {
+                    "id": 150,
+                    "name": "Mewtwo",
+                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Team 2",
+            "pokemons": [
+                {
+                    "id": 6,
+                    "name": "Charizard",
+                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"
+                },
+                {
+                    "id": 150,
+                    "name": "Mewtwo",
+                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Team 3",
+            "pokemons": [
+                {
+                    "id": 6,
+                    "name": "Charizard",
+                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"
+                },
+                {
+                    "id": 150,
+                    "name": "Mewtwo",
+                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "name": "Team 4",
+            "pokemons": [
+                {
+                    "id": 6,
+                    "name": "Charizard",
+                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"
+                },
+                {
+                    "id": 150,
+                    "name": "Mewtwo",
+                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png"
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "name": "Team 5",
+            "pokemons": [
+                {
+                    "id": 6,
+                    "name": "Charizard",
+                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"
+                },
+                {
+                    "id": 150,
+                    "name": "Mewtwo",
+                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png"
+                }
+            ]
+        }
+    ]
+}
