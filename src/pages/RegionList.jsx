@@ -1,7 +1,7 @@
 import {
   Grid, Card, CardContent, Typography, CardActions, Button,
 } from '@mui/material';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import CreateIcon from '@mui/icons-material/Create';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 const POKEAPI = `${import.meta.env.VITE_POKEAPI_URL}/region`;
 
 export default function RegionList() {
-  const [regions, setRegions] = React.useState([]);
+  const [regions, setRegions] = useState([]);
 
   useEffect(() => {
     axios.get(POKEAPI)
