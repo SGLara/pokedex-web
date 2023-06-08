@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from '@mui/material';
-import { Navigate, Route, Routes } from 'react-router';
+import { Route, Routes } from 'react-router';
 import Login from './pages/Auth/Login';
 import RegionList from './pages/RegionList';
 import MyTeams from './pages/MyTeams';
@@ -30,8 +30,6 @@ export default function App() {
         justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
-        border: 1,
-        borderColor: 'primary.dark',
       }}
     >
       {
@@ -72,7 +70,7 @@ export default function App() {
           )}
         />
         <Route
-          path="/my-teams/create"
+          path="/my-teams/create/:id/:regionName"
           element={(
             <ProtectedRoute isSignedIn={isSignedIn}>
               <CreateTeamForm />

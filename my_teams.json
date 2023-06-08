@@ -94,6 +94,39 @@
                     "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png"
                 }
             ]
+        },
+        {
+            "description": "Mi pokedexito xd",
+            "id": "0903",
+            "name": "Ahry",
+            "pokemons": [
+                {
+                    "avatar": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10.png",
+                    "disabled": false,
+                    "name": "caterpie"
+                },
+                {
+                    "avatar": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/32.png",
+                    "disabled": false,
+                    "name": "nidoran-m"
+                },
+                {
+                    "avatar": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/54.png",
+                    "disabled": false,
+                    "name": "psyduck"
+                },
+                {
+                    "avatar": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/56.png",
+                    "disabled": false,
+                    "name": "mankey"
+                },
+                {
+                    "avatar": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png",
+                    "disabled": false,
+                    "name": "charmander"
+                }
+            ],
+            "region": "kanto"
         }
     ]
 }

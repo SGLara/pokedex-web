@@ -16,7 +16,7 @@ export default function Login({ isSignedIn, uiConfig, firebaseAuth }) {
         padding: '3rem',
         gap: '7rem',
         backgroundColor: 'rgba(255, 255, 255, 0.1)',
-        border: '1px solid #ff0000',
+        border: '1px solid #e3f2fd',
       }}
     >
       {

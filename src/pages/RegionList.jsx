@@ -21,6 +21,12 @@ export default function RegionList() {
       });
   }, []);
 
+  const getRegionId = (region) => {
+    const regionId = region.url.split('/').slice(-2)[0];
+
+    return regionId;
+  };
+
   return (
     <Grid maxWidth="md" container spacing={2}>
       {regions.map((region) => (
@@ -50,7 +56,7 @@ export default function RegionList() {
                 size="small"
                 startIcon={<CreateIcon />}
                 component={Link}
-                to="/my-teams/create"
+                to={`/my-teams/create/${getRegionId(region)}/${region.name}`}
               >
                 Create Team
               </Button>
