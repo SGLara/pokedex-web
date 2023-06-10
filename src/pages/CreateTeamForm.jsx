@@ -29,7 +29,7 @@ export default function CreateTeamForm() {
   const [descriptionWarningMessage, setDescriptionWarningMessage] = useState(false);
   const [regionWarning, setRegionWarning] = useState();
   const [regionWarningMessage, setRegionWarningMessage] = useState(false);
-  const [setPokemonsWarning] = useState();
+  const [, setPokemonsWarning] = useState();
   const [pokemonsWarningMessage, setPokemonsWarningMessage] = useState('You must select at least 3 Pokémon');
 
   const [values] = useListVals(ref(db, 'my_teams'));
@@ -150,33 +150,14 @@ export default function CreateTeamForm() {
             }}
           >
             <TextField
-              label="Team ID"
-              value={id}
-              error={idWarning}
-              helperText={idWarningMessage}
-              onChange={(e) => setId(e.target.value)}
-              fullWidth
-              disabled
-            />
-            <TextField
               label="Team Name"
               value={name}
               error={nameWarning}
               helperText={nameWarningMessage}
               onChange={(e) => setName(e.target.value)}
               fullWidth
+              autoComplete="off"
             />
-            <TextField
-              label="Region"
-              value={region}
-              error={regionWarning}
-              helperText={regionWarningMessage}
-              onChange={(e) => setRegion(e.target.value)}
-              fullWidth
-              disabled
-            />
-          </Grid>
-          <Grid item xs={6}>
             <TextField
               label="Description"
               value={description}
@@ -189,6 +170,34 @@ export default function CreateTeamForm() {
               sx={{
                 height: '100%',
               }}
+            />
+          </Grid>
+          <Grid
+            item
+            xs={6}
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1rem',
+            }}
+          >
+            <TextField
+              label="Team ID"
+              value={id}
+              error={idWarning}
+              helperText={idWarningMessage}
+              onChange={(e) => setId(e.target.value)}
+              fullWidth
+              disabled
+            />
+            <TextField
+              label="Region"
+              value={region}
+              error={regionWarning}
+              helperText={regionWarningMessage}
+              onChange={(e) => setRegion(e.target.value)}
+              fullWidth
+              disabled
             />
           </Grid>
           {/*
