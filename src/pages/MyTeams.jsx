@@ -1,10 +1,23 @@
 import {
-  Card, CardContent, Grid, Typography, Avatar, CardActions, AvatarGroup, Chip,
+  Card,
+  CardContent,
+  Grid,
+  Typography,
+  Avatar,
+  CardActions,
+  AvatarGroup,
+  Chip,
+  Button,
+  ButtonGroup,
+  IconButton,
+  Divider,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useListVals } from 'react-firebase-hooks/database';
-import { db, ref } from '../services/firebase.config';
-import CreateTeamButton from '../components/CreateTeamButton';
+import { Link } from 'react-router-dom';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import { db, ref, set } from '../services/firebase.config';
 
 export default function MyTeams() {
   const [values] = useListVals(ref(db, 'my_teams'));
@@ -14,9 +27,41 @@ export default function MyTeams() {
     setMyTeams(values);
   }, [values]);
 
+  const handleDelete = (id) => {
+    const newTeams = myTeams.filter((team) => team.id !== id);
+    setMyTeams(newTeams);
+    set(ref(db, 'my_teams'), newTeams);
+  };
+
   return (
     <Grid container maxWidth="md" minWidth={900} spacing={2}>
-      {/* <CreateTeamButton /> */}
+      {
+        myTeams.length === 0 && (
+          <Grid item xs={12}>
+            <Typography variant="h2" component="h1" align="center">
+              There are no teams yet
+              {' '}
+              <br />
+              😧
+            </Typography>
+            <Typography variant="h4" component="h2" align="center">
+              Please create one in the
+              <Button
+                variant="outlined"
+                component={Link}
+                color="primary"
+                to="/regions"
+                sx={{
+                  mx: 1,
+                }}
+              >
+                Region List
+              </Button>
+              page
+            </Typography>
+          </Grid>
+        )
+      }
       {
         myTeams.map((team) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={team.id}>
@@ -58,7 +103,7 @@ export default function MyTeams() {
                   {team.description}
                 </Typography>
                 <Chip
-                  label={team.region}
+                  label={team.region?.name}
                   size="small"
                   sx={{
                     backgroundColor: 'white',
@@ -68,16 +113,18 @@ export default function MyTeams() {
               </CardContent>
               <CardActions sx={{
                 display: 'flex',
+                flexDirection: 'column',
                 justifyContent: 'center',
                 alignItems: 'center',
-                padding: 3,
+                gap: '0.5rem',
               }}
               >
                 {
-                  team.pokemons?.length > 0
+                  team.pokemons.length > 0
                   && (
-                    <AvatarGroup max={4}>
-                      {
+                    <>
+                      <AvatarGroup max={4}>
+                        {
                         team.pokemons.map((pokemon) => (
                           <Avatar
                             sx={{
@@ -88,8 +135,23 @@ export default function MyTeams() {
                             src={pokemon.avatar}
                           />
                         ))
-                      }
-                    </AvatarGroup>
+                        }
+                      </AvatarGroup>
+                      <Divider variant="middle" flexItem sx={{ mt: 2 }} />
+                      <ButtonGroup>
+                        <IconButton
+                          component={Link}
+                          to={`/my-teams/edit/${team.id}`}
+                        >
+                          <EditIcon />
+                        </IconButton>
+                        <IconButton
+                        onClick={() => handleDelete(team.id)}
+                        >
+                          <DeleteIcon sx={{ color: 'red' }} />
+                        </IconButton>
+                      </ButtonGroup>
+                    </>
                   )
                 }
               </CardActions>

@@ -4,7 +4,10 @@
             "id": 1,
             "name": "Team 1",
             "description": "Mi pokedexito xd",
-            "region": "kanto",
+            "region": {
+                "id": "1",
+                "name": "kanto"
+            },
             "pokemons": [
                 {
                     "name": "Pikachu",
@@ -37,7 +40,10 @@
             "id": 2,
             "name": "Team 2",
             "description": "Mi pokedexito xd",
-            "region": "kanto",
+            "region": {
+                "id": "1",
+                "name": "kanto"
+            },
             "pokemons": [
                 {
                     "name": "Charizard",
@@ -55,7 +61,10 @@
             "id": 3,
             "name": "Team 3",
             "description": "Mi pokedexito xd",
-            "region": "kanto",
+            "region": {
+                "id": "1",
+                "name": "kanto"
+            },
             "pokemons": [
                 {
                     "name": "Charizard",
@@ -73,7 +82,10 @@
             "id": 4,
             "name": "Team 4",
             "description": "Mi pokedexito xd",
-            "region": "kanto",
+            "region": {
+                "id": "1",
+                "name": "kanto"
+            },
             "pokemons": [
                 {
                     "name": "Charizard",
@@ -91,7 +103,10 @@
             "id": 5,
             "name": "Team 5",
             "description": "Mi pokedexito xd",
-            "region": "kanto",
+            "region": {
+                "id": "1",
+                "name": "kanto"
+            },
             "pokemons": [
                 {
                     "name": "Charizard",
@@ -109,7 +124,10 @@
             "id": "0903",
             "name": "Ahry",
             "description": "Mi pokedexito xd",
-            "region": "kanto",
+            "region": {
+                "id": "1",
+                "name": "kanto"
+            },
             "pokemons": [
                 {
                     "avatar": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10.png",

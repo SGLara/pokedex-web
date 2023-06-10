@@ -12,23 +12,23 @@ const maxSelection = 6;
 const minSelection = 3;
 
 export default function CreateTeamForm() {
-  const { id: regionId, regionName } = useParams();
+  const {
+    routeAction, resourceId, regionName,
+  } = useParams();
 
   const [id, setId] = useState('');
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [region, setRegion] = useState(regionName);
-  // note: this will be updated by the PokemonsList component, this are the ones user will select
   const [pokemons, setPokemons] = useState([]);
+  const [region, setRegion] = useState({
+      id: resourceId,
+      name: regionName
+  });
 
-  const [idWarning, setIdWarning] = useState();
-  const [idWarningMessage, setIdWarningMessage] = useState(false);
   const [nameWarning, setNameWarning] = useState();
   const [nameWarningMessage, setNameWarningMessage] = useState(false);
   const [descriptionWarning, setDescriptionWarning] = useState();
   const [descriptionWarningMessage, setDescriptionWarningMessage] = useState(false);
-  const [regionWarning, setRegionWarning] = useState();
-  const [regionWarningMessage, setRegionWarningMessage] = useState(false);
   const [, setPokemonsWarning] = useState();
   const [pokemonsWarningMessage, setPokemonsWarningMessage] = useState('You must select at least 3 Pokémon');
 
@@ -36,17 +36,44 @@ export default function CreateTeamForm() {
 
   const navigate = useNavigate();
 
-  // useEffect to get the last team id and set it to the id state
   useEffect(() => {
     if (values.length > 0) {
-      const lastTeam = values[values.length - 1];
-      const lastTeamId = parseInt(lastTeam.id, 10);
+      if (routeAction === 'create') {
+        const lastTeam = values[values.length - 1];
+        const lastTeamId = parseInt(lastTeam.id, 10);
 
-      setId(lastTeamId + 1);
+        setId(lastTeamId + 1);
+        setRegion({
+          id: resourceId,
+          name: regionName,
+        });
+      }
+
+      // If the route action is edit, set the team data to the form fields
+      if (routeAction === 'edit') {
+        const team = values.find((item) => item.id === resourceId);
+
+        setId(team.id);
+        setName(team.name);
+        setDescription(team.description);
+        setRegion({
+          id: team.region.id,
+          name: team.region.name,
+        });
+        setPokemons(team.pokemons);
+      }
     } else {
       setId(1);
     }
-  }, [values]);
+
+    return () => {
+      setId('');
+      setName('');
+      setDescription('');
+      setRegion([]);
+      setPokemons([]);
+    };
+  }, [values, resourceId, regionName, routeAction]);
 
   // const snapshots = ref(db, 'my_teams/');
   // onValue(snapshots, (snapshot) => {
@@ -57,6 +84,8 @@ export default function CreateTeamForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(region);
+
 
     let hasError = false;
 
@@ -64,15 +93,6 @@ export default function CreateTeamForm() {
       setPokemonsWarning(true);
       setPokemonsWarningMessage('You must select at least 3 Pokémon');
       hasError = true;
-    }
-
-    if (id === '') {
-      setIdWarning(true);
-      setIdWarningMessage('Team ID is required');
-      hasError = true;
-    } else {
-      setIdWarning(false);
-      setIdWarningMessage('');
     }
 
     if (name === '') {
@@ -91,15 +111,6 @@ export default function CreateTeamForm() {
     } else {
       setDescriptionWarning(false);
       setDescriptionWarningMessage('');
-    }
-
-    if (region === '') {
-      setRegionWarning(true);
-      setRegionWarningMessage('Region is required');
-      hasError = true;
-    } else {
-      setRegionWarning(false);
-      setRegionWarningMessage('');
     }
 
     if (hasError) {
@@ -184,18 +195,12 @@ export default function CreateTeamForm() {
             <TextField
               label="Team ID"
               value={id}
-              error={idWarning}
-              helperText={idWarningMessage}
-              onChange={(e) => setId(e.target.value)}
               fullWidth
               disabled
             />
             <TextField
               label="Region"
-              value={region}
-              error={regionWarning}
-              helperText={regionWarningMessage}
-              onChange={(e) => setRegion(e.target.value)}
+              value={region?.name}
               fullWidth
               disabled
             />
@@ -205,10 +210,9 @@ export default function CreateTeamForm() {
            */}
           <Grid item xs={12}>
             <PokemonsList
-              regionId={regionId}
+              region={region}
               pokemons={pokemons}
               setPokemons={setPokemons}
-              minSelection={minSelection}
               maxSelection={maxSelection}
               setPokemonsWarningMessage={setPokemonsWarningMessage}
               pokemonsWarningMessage={pokemonsWarningMessage}

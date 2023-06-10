@@ -70,7 +70,7 @@ export default function App() {
           )}
         />
         <Route
-          path="/my-teams/create/:id/:regionName"
+          path="/my-teams/:routeAction/:resourceId/:regionName?"
           element={(
             <ProtectedRoute isSignedIn={isSignedIn}>
               <CreateTeamForm />

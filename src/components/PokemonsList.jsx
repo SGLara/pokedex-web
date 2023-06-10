@@ -7,14 +7,14 @@ import React, { useEffect, useState } from 'react';
 
 const POKEAPI = `${import.meta.env.VITE_POKEAPI_URL}`
 
-export default function PokemonsList({ regionId, pokemons, setPokemons, minSelection, maxSelection, pokemonsWarningMessage, setPokemonsWarningMessage }) {
+export default function PokemonsList({ region, pokemons, setPokemons, maxSelection, pokemonsWarningMessage, setPokemonsWarningMessage }) {
   const [pokemonsAvatars, setPokemonsAvatars] = useState([]);
-
+  
   useEffect(() => {
     const fetchPokemons = async () => {
       try {
         // Get the generation based on the region ID
-        const generationResponse = await axios.get(POKEAPI + `/generation/${regionId}`)
+        const generationResponse = await axios.get(POKEAPI + `/generation/${region?.id}`);
         const generationData = generationResponse.data;
 
         // Get the Pokémon species from the generation
@@ -36,7 +36,7 @@ export default function PokemonsList({ regionId, pokemons, setPokemons, minSelec
     };
 
     fetchPokemons();
-  }, [regionId]);
+  }, [region?.id]);
 
   const handlePokemonSelection = (pokemon) => {
     const selectedPokemon = pokemons.find((p) => p.name === pokemon.name);
