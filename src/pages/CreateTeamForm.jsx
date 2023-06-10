@@ -4,6 +4,7 @@ import {
   TextField, Button, Grid, Paper,
 } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useListVals } from 'react-firebase-hooks/database';
 import { db, ref, set } from '../services/firebase.config';
 import PokemonsList from '../components/PokemonsList';
 
@@ -28,10 +29,24 @@ export default function CreateTeamForm() {
   const [descriptionWarningMessage, setDescriptionWarningMessage] = useState(false);
   const [regionWarning, setRegionWarning] = useState();
   const [regionWarningMessage, setRegionWarningMessage] = useState(false);
-  const [pokemonsWarning, setPokemonsWarning] = useState();
+  const [setPokemonsWarning] = useState();
   const [pokemonsWarningMessage, setPokemonsWarningMessage] = useState('You must select at least 3 Pokémon');
 
+  const [values] = useListVals(ref(db, 'my_teams'));
+
   const navigate = useNavigate();
+
+  // useEffect to get the last team id and set it to the id state
+  useEffect(() => {
+    if (values.length > 0) {
+      const lastTeam = values[values.length - 1];
+      const lastTeamId = parseInt(lastTeam.id, 10);
+
+      setId(lastTeamId + 1);
+    } else {
+      setId(1);
+    }
+  }, [values]);
 
   // const snapshots = ref(db, 'my_teams/');
   // onValue(snapshots, (snapshot) => {
@@ -141,6 +156,7 @@ export default function CreateTeamForm() {
               helperText={idWarningMessage}
               onChange={(e) => setId(e.target.value)}
               fullWidth
+              disabled
             />
             <TextField
               label="Team Name"

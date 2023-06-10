@@ -3,102 +3,113 @@
         {
             "id": 1,
             "name": "Team 1",
+            "description": "Mi pokedexito xd",
+            "region": "kanto",
             "pokemons": [
                 {
-                    "id": 25,
                     "name": "Pikachu",
-                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
+                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png",
+                    "disabled": false
                 },
                 {
-                    "id": 4,
                     "name": "Charmander",
-                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png"
+                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png",
+                    "disabled": false
                 },
                 {
-                    "id": 7,
                     "name": "Squirtle",
-                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png"
+                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png",
+                    "disabled": false
                 },
                 {
-                    "id": 1,
                     "name": "Bulbasaur",
-                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"
+                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png",
+                    "disabled": false
                 },
                 {
-                    "id": 150,
                     "name": "Mewtwo",
-                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png"
+                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png",
+                    "disabled": false
                 }
             ]
         },
         {
             "id": 2,
             "name": "Team 2",
+            "description": "Mi pokedexito xd",
+            "region": "kanto",
             "pokemons": [
                 {
-                    "id": 6,
                     "name": "Charizard",
-                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"
+                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png",
+                    "disabled": false
                 },
                 {
-                    "id": 150,
                     "name": "Mewtwo",
-                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png"
+                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png",
+                    "disabled": false
                 }
             ]
         },
         {
             "id": 3,
             "name": "Team 3",
+            "description": "Mi pokedexito xd",
+            "region": "kanto",
             "pokemons": [
                 {
-                    "id": 6,
                     "name": "Charizard",
-                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"
+                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png",
+                    "disabled": false
                 },
                 {
-                    "id": 150,
                     "name": "Mewtwo",
-                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png"
+                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png",
+                    "disabled": false
                 }
             ]
         },
         {
             "id": 4,
             "name": "Team 4",
+            "description": "Mi pokedexito xd",
+            "region": "kanto",
             "pokemons": [
                 {
-                    "id": 6,
                     "name": "Charizard",
-                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"
+                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png",
+                    "disabled": false
                 },
                 {
-                    "id": 150,
                     "name": "Mewtwo",
-                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png"
+                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png",
+                    "disabled": false
                 }
             ]
         },
         {
             "id": 5,
             "name": "Team 5",
+            "description": "Mi pokedexito xd",
+            "region": "kanto",
             "pokemons": [
                 {
-                    "id": 6,
                     "name": "Charizard",
-                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"
+                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png",
+                    "disabled": false
                 },
                 {
-                    "id": 150,
                     "name": "Mewtwo",
-                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png"
+                    "avatar": "https: //raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png",
+                    "disabled": false
                 }
             ]
         },
         {
-            "description": "Mi pokedexito xd",
             "id": "0903",
             "name": "Ahry",
+            "description": "Mi pokedexito xd",
+            "region": "kanto",
             "pokemons": [
                 {
                     "avatar": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10.png",
@@ -125,8 +136,7 @@
                     "disabled": false,
                     "name": "charmander"
                 }
-            ],
-            "region": "kanto"
+            ]
         }
     ]
 }
