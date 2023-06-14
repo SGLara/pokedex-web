@@ -57,7 +57,9 @@ export default function App() {
           path="/regions"
           element={(
             <ProtectedRoute isSignedIn={isSignedIn}>
-              <RegionList />
+              <RegionList
+                firebaseAuth={firebase.auth()}
+              />
             </ProtectedRoute>
           )}
         />
