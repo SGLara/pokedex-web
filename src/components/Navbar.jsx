@@ -1,28 +1,48 @@
-import { AccountCircle } from '@mui/icons-material';
+/* eslint-disable react/prop-types */
 import {
-  AppBar, Button, IconButton, Menu, MenuItem, Toolbar, Typography,
+  AppBar,
+  Avatar,
+  Box,
+  Button,
+  ButtonGroup,
+  Container,
+  IconButton,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Typography,
 } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-// eslint-disable-next-line react/prop-types
-export default function Navbar({ isSignedIn, setIsSignedIn, firebaseAuth }) {
-  const [anchorEl, setAnchorEl] = useState(null);
+export default function Navbar({
+  isSignedIn, setIsSignedIn, firebaseAuth,
+}) {
+  const [anchorElUser, setAnchorElUser] = useState(null);
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const user = firebaseAuth.currentUser;
 
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
   };
 
   const handleLogOut = () => {
-    // eslint-disable-next-line react/prop-types
     firebaseAuth.signOut()
       .then(() => {
         setIsSignedIn(false);
-        setAnchorEl(null);
+        setAnchorElUser(null);
       })
       .catch((error) => {
         console.log(error);
@@ -30,67 +50,139 @@ export default function Navbar({ isSignedIn, setIsSignedIn, firebaseAuth }) {
   };
 
   return (
-    <AppBar position="fixed" color="primary">
-      <Toolbar
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Typography variant="h6" component="div">
-          POKÉDEX
-        </Typography>
-        <div style={{
-          display: 'flex',
-          gap: '1.5rem',
-        }}
-        >
-          <Button
-            component={Link}
-            variant="outlined"
-            to="/"
-          >
-            Region List
-          </Button>
-          <Button
-            component={Link}
-            variant="outlined"
-            to="/my-teams"
-          >
-            My Teams
-          </Button>
-        </div>
-        {isSignedIn && (
-        <div>
-          <IconButton
-            size="large"
-            aria-label="account of current user"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            onClick={handleMenu}
-          >
-            <AccountCircle />
-          </IconButton>
-          <Menu
-            id="menu-appbar"
-            anchorEl={anchorEl}
-            anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
+    <AppBar position="fixed">
+      <Container maxWidth="xl">
+        <Toolbar>
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{
+              display: { xs: 'none', sm: 'flex' },
+              mr: 2,
             }}
-            keepMounted
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
           >
-            <MenuItem onClick={handleLogOut}>Log Out</MenuItem>
-          </Menu>
-        </div>
-        )}
-      </Toolbar>
+            POKÉDEX
+          </Typography>
+
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+            <IconButton
+              size="large"
+              onClick={handleOpenNavMenu}
+              color="inherit"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: 'block', md: 'none' },
+              }}
+            >
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Typography
+                  textAlign="center"
+                  component={Link}
+                  to="/regions"
+                  sx={{
+                    textDecoration: 'none',
+                    color: 'inherit',
+                  }}
+                >
+                  Region List
+                </Typography>
+              </MenuItem>
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Typography
+                  textAlign="center"
+                  component={Link}
+                  to="/my-teams"
+                  sx={{
+                    textDecoration: 'none',
+                    color: 'inherit',
+                  }}
+                >
+                  My Teams
+                </Typography>
+              </MenuItem>
+            </Menu>
+          </Box>
+
+          <Typography
+            variant="h5"
+            component="div"
+            sx={{
+              flexGrow: 1,
+              mr: 2,
+              display: { xs: 'flex', sm: 'none' },
+            }}
+          >
+            POKÉDEX
+          </Typography>
+          <Box sx={{
+            flexGrow: 1,
+            display: { xs: 'none', md: 'flex' },
+          }}
+          >
+            <ButtonGroup>
+              <Button
+                component={Link}
+                variant="outlined"
+                to="/regions"
+              >
+                Region List
+              </Button>
+              <Button
+                component={Link}
+                variant="outlined"
+                to="/my-teams"
+              >
+                My Teams
+              </Button>
+            </ButtonGroup>
+          </Box>
+
+          {isSignedIn && (
+          <Box>
+            <IconButton
+              size="large"
+              onClick={handleOpenUserMenu}
+            >
+              <Avatar src={user.photoURL} alt={user.displayName} />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              <MenuItem onClick={handleLogOut}>Log Out</MenuItem>
+            </Menu>
+          </Box>
+          )}
+        </Toolbar>
+      </Container>
     </AppBar>
   );
 }
