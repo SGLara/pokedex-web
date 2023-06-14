@@ -3,14 +3,14 @@ import 'firebase/compat/auth';
 import { getDatabase, ref, set } from 'firebase/database';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyBUvuqEAUAwnwQGi5jXfjrB4sKd53ctPBY',
-  authDomain: 'pokedex-bd24f.firebaseapp.com',
-  projectId: 'pokedex-bd24f',
-  databaseURL: 'https://pokedex-bd24f-default-rtdb.firebaseio.com',
-  storageBucket: 'pokedex-bd24f.appspot.com',
-  messagingSenderId: '864272135652',
-  appId: '1:864272135652:web:9ed701679c314d4756c3f1',
-  measurementId: 'G-CC6C1ZT8E0',
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 firebase.initializeApp(firebaseConfig);
