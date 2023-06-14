@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from '@mui/material';
 import { Route, Routes } from 'react-router';
+import { useListVals } from 'react-firebase-hooks/database';
+import { onValue } from 'firebase/database';
 import Login from './pages/Auth/Login';
 import RegionList from './pages/RegionList';
 import MyTeams from './pages/MyTeams';
 import CreateTeamForm from './pages/CreateTeamForm';
-import { uiConfig, firebase } from './services/firebase.config';
+import {
+  uiConfig, firebase, db, ref, set,
+} from './services/firebase.config';
 import ProtectedRoute from './pages/Auth/ProtectedRoute';
 import Navbar from './components/Navbar';
 import NotFound from './pages/NotFound';
@@ -17,6 +21,25 @@ export default function App() {
   useEffect(() => {
     const unregisterAuthObserver = firebase.auth().onAuthStateChanged((user) => {
       setIsSignedIn(!!user);
+
+      if (user) {
+        // Get the user's data from the database by uid provided by Firebase Auth
+        const userRef = ref(db, `pokedex_web/${user.uid}`);
+        onValue(userRef, (snapshot) => {
+          const userData = snapshot.val();
+
+          if (!userData) {
+            // If the user doesn't exist, create a new user in the database
+            set(userRef, {
+              uid: user.uid,
+              email: user.email,
+              displayName: user.displayName,
+              photoURL: user.photoURL,
+            });
+            console.log(userData);
+          }
+        });
+      }
     });
 
     return () => unregisterAuthObserver();
@@ -72,7 +95,7 @@ export default function App() {
           )}
         />
         <Route
-          path="/my-teams/:routeAction/:resourceId/:regionName?"
+          path="/my-teams/:routeAction/:resourceIdURL/:regionNameURL?"
           element={(
             <ProtectedRoute isSignedIn={isSignedIn}>
               <CreateTeamForm />

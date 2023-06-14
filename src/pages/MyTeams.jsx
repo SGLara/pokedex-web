@@ -17,10 +17,13 @@ import { useListVals } from 'react-firebase-hooks/database';
 import { Link } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { db, ref, set } from '../services/firebase.config';
+import {
+  db, ref, set, firebase,
+} from '../services/firebase.config';
 
 export default function MyTeams() {
-  const [values] = useListVals(ref(db, 'my_teams'));
+  const authUserUid = firebase.auth().currentUser.uid;
+  const [values] = useListVals(ref(db, `pokedex_web/${authUserUid}/teams_created`));
   const [myTeams, setMyTeams] = useState([]);
 
   useEffect(() => {
@@ -30,7 +33,7 @@ export default function MyTeams() {
   const handleDelete = (id) => {
     const newTeams = myTeams.filter((team) => team.id !== id);
     setMyTeams(newTeams);
-    set(ref(db, 'my_teams'), newTeams);
+    set(ref(db, `pokedex_web/${authUserUid}/teams_created`), newTeams);
   };
 
   return (
@@ -103,7 +106,7 @@ export default function MyTeams() {
                   {team.description}
                 </Typography>
                 <Chip
-                  label={team.region?.name}
+                  label={team.region.name}
                   size="small"
                   sx={{
                     backgroundColor: 'white',
@@ -146,7 +149,7 @@ export default function MyTeams() {
                           <EditIcon />
                         </IconButton>
                         <IconButton
-                        onClick={() => handleDelete(team.id)}
+                          onClick={() => handleDelete(team.id)}
                         >
                           <DeleteIcon sx={{ color: 'red' }} />
                         </IconButton>

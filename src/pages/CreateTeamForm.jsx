@@ -5,7 +5,9 @@ import {
 } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useListVals } from 'react-firebase-hooks/database';
-import { db, ref, set } from '../services/firebase.config';
+import {
+  db, ref, set, firebase,
+} from '../services/firebase.config';
 import PokemonsList from '../components/PokemonsList';
 
 const maxSelection = 6;
@@ -13,17 +15,15 @@ const minSelection = 3;
 
 export default function CreateTeamForm() {
   const {
-    routeAction, resourceId, regionName,
+    routeAction, resourceIdURL, regionNameURL,
   } = useParams();
 
-  const [id, setId] = useState('');
+  const [id, setId] = useState();
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [pokemons, setPokemons] = useState([]);
-  const [region, setRegion] = useState({
-      id: resourceId,
-      name: regionName
-  });
+  const [regionId, setRegionId] = useState(resourceIdURL);
+  const [regionName, setRegionName] = useState(regionNameURL);
 
   const [nameWarning, setNameWarning] = useState();
   const [nameWarningMessage, setNameWarningMessage] = useState(false);
@@ -32,7 +32,9 @@ export default function CreateTeamForm() {
   const [, setPokemonsWarning] = useState();
   const [pokemonsWarningMessage, setPokemonsWarningMessage] = useState('You must select at least 3 Pokémon');
 
-  const [values] = useListVals(ref(db, 'my_teams'));
+  const authUserUid = firebase.auth().currentUser.uid;
+
+  const [values] = useListVals(ref(db, `pokedex_web/${authUserUid}/teams_created`));
 
   const navigate = useNavigate();
 
@@ -40,40 +42,39 @@ export default function CreateTeamForm() {
     if (values.length > 0) {
       if (routeAction === 'create') {
         const lastTeam = values[values.length - 1];
-        const lastTeamId = parseInt(lastTeam.id, 10);
+        const lastTeamId = parseInt(lastTeam.id, 10) + 1;
 
-        setId(lastTeamId + 1);
-        setRegion({
-          id: resourceId,
-          name: regionName,
-        });
+        setId(lastTeamId.toString());
+        setRegionId(resourceIdURL);
+        setRegionName(regionNameURL);
       }
 
       // If the route action is edit, set the team data to the form fields
       if (routeAction === 'edit') {
-        const team = values.find((item) => item.id === resourceId);
+        const team = values.find((item) => item.id === resourceIdURL);
 
         setId(team.id);
         setName(team.name);
         setDescription(team.description);
-        setRegion({
-          id: team.region.id,
-          name: team.region.name,
-        });
+        setRegionId(team.region.id);
+        setRegionName(team.region.name);
         setPokemons(team.pokemons);
       }
     } else {
-      setId(1);
+      setId('1');
+      setRegionId(resourceIdURL);
+      setRegionName(regionNameURL);
     }
 
     return () => {
-      setId('');
+      setId();
       setName('');
+      setRegionId('');
+      setRegionName('');
       setDescription('');
-      setRegion([]);
       setPokemons([]);
     };
-  }, [values, resourceId, regionName, routeAction]);
+  }, [values, resourceIdURL, regionNameURL, routeAction, regionId, regionName]);
 
   // const snapshots = ref(db, 'my_teams/');
   // onValue(snapshots, (snapshot) => {
@@ -84,8 +85,6 @@ export default function CreateTeamForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(region);
-
 
     let hasError = false;
 
@@ -118,10 +117,13 @@ export default function CreateTeamForm() {
     }
 
     // Submit data to Firebase Realtime Database
-    set(ref(db, `my_teams/${id}`), {
+    set(ref(db, `pokedex_web/${authUserUid}/teams_created/${id}`), {
       id,
       name,
-      region,
+      region: {
+        id: regionId,
+        name: regionName,
+      },
       description,
       pokemons,
     });
@@ -129,6 +131,8 @@ export default function CreateTeamForm() {
     // Clear form fields
     setId('');
     setName('');
+    setRegionId('');
+    setRegionName('');
     setDescription('');
     setPokemons([]);
 
@@ -200,7 +204,7 @@ export default function CreateTeamForm() {
             />
             <TextField
               label="Region"
-              value={region?.name}
+              value={regionName}
               fullWidth
               disabled
             />
@@ -210,7 +214,7 @@ export default function CreateTeamForm() {
            */}
           <Grid item xs={12}>
             <PokemonsList
-              region={region}
+              regionId={regionId}
               pokemons={pokemons}
               setPokemons={setPokemons}
               maxSelection={maxSelection}
