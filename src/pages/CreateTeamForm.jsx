@@ -18,22 +18,21 @@ export default function CreateTeamForm() {
     routeAction, resourceIdURL, regionNameURL,
   } = useParams();
 
-  const [id, setId] = useState();
+  const [id, setId] = useState('');
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [pokemons, setPokemons] = useState([]);
   const [regionId, setRegionId] = useState(resourceIdURL);
   const [regionName, setRegionName] = useState(regionNameURL);
 
-  const [nameWarning, setNameWarning] = useState();
-  const [nameWarningMessage, setNameWarningMessage] = useState(false);
-  const [descriptionWarning, setDescriptionWarning] = useState();
-  const [descriptionWarningMessage, setDescriptionWarningMessage] = useState(false);
-  const [, setPokemonsWarning] = useState();
-  const [pokemonsWarningMessage, setPokemonsWarningMessage] = useState('You must select at least 3 Pokémon');
+  const [nameWarning, setNameWarning] = useState(false);
+  const [nameWarningMessage, setNameWarningMessage] = useState('');
+  const [descriptionWarning, setDescriptionWarning] = useState(false);
+  const [descriptionWarningMessage, setDescriptionWarningMessage] = useState('');
+  const [, setPokemonsWarning] = useState(false);
+  const [pokemonsWarningMessage, setPokemonsWarningMessage] = useState('');
 
   const authUserUid = firebase.auth().currentUser.uid;
-
   const [values] = useListVals(ref(db, `pokedex_web/${authUserUid}/teams_created`));
 
   const navigate = useNavigate();
@@ -67,7 +66,7 @@ export default function CreateTeamForm() {
     }
 
     return () => {
-      setId();
+      setId('');
       setName('');
       setRegionId('');
       setRegionName('');

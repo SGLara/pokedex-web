@@ -28,6 +28,10 @@ export default function MyTeams() {
 
   useEffect(() => {
     setMyTeams(values);
+
+    return () => {
+      setMyTeams([]);
+    };
   }, [values]);
 
   const handleDelete = (id) => {

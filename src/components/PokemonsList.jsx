@@ -5,10 +5,12 @@ import {
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
-const POKEAPI = `${import.meta.env.VITE_POKEAPI_URL}`
+const POKEAPI = import.meta.env.VITE_POKEAPI_URL
 
-export default function PokemonsList({ regionId , pokemons: pokemonsSelected, setPokemons, maxSelection, pokemonsWarningMessage, setPokemonsWarningMessage }) {
+export default function PokemonsList({ regionId , pokemons, setPokemons, maxSelection, pokemonsWarningMessage, setPokemonsWarningMessage }) {
   const [pokemonsAvatars, setPokemonsAvatars] = useState([]);
+  // check if the pokemons are already selected
+  // const [pokemonsSelected, setPokemonsSelected] = useState([]);
   
   useEffect(() => {
     const fetchPokemons = async () => {
@@ -24,20 +26,20 @@ export default function PokemonsList({ regionId , pokemons: pokemonsSelected, se
 
         // Extract the relevant information from the Pokémon data
         
-        const pokemons = pokemonData.map((pokemon) => ({
+        const pokemonsSelected = pokemonData.map((pokemon) => ({
           name: pokemon.name,
           avatar: pokemon.sprites.front_default,
-          disabled: pokemonsSelected.find((p) => p.name === pokemon.name),
+          disabled: pokemons.find((p) => p.name === pokemon.name) ? true : false,
         }));
 
-        setPokemonsAvatars(pokemons);
+        setPokemonsAvatars(pokemonsSelected);
       } catch (error) {
         console.error('Error fetching Pokémon:', error);
       }
     };
 
     fetchPokemons();
-  }, [regionId, pokemonsSelected]);
+  }, [regionId, pokemons]);
 
   const handlePokemonSelection = (pokemon) => {
     const selectedPokemon = pokemons.find((p) => p.name === pokemon.name);
