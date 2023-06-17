@@ -1,18 +1,23 @@
 /* eslint-disable react/prop-types */
 import {
-  Grid, Paper, IconButton, Avatar, Alert,
+  Grid, Paper, IconButton, Avatar, Alert, Skeleton,
 } from '@mui/material';
 import axios from 'axios';
+import NotFound from '../pages/NotFound';
 import React, { useEffect, useState } from 'react';
+import PokemonListSkeleton from './skeletons_loaders/PokemonListSkeleton';
+import { set } from 'firebase/database';
 
 const POKEAPI = import.meta.env.VITE_POKEAPI_URL
 
 export default function PokemonsList({ regionId , pokemons, setPokemons, maxSelection, pokemonsWarningMessage, setPokemonsWarningMessage }) {
   const [pokemonsAvatars, setPokemonsAvatars] = useState([]);
-  // check if the pokemons are already selected
-  // const [pokemonsSelected, setPokemonsSelected] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   
   useEffect(() => {
+    setLoading(true);
+    
     const fetchPokemons = async () => {
       try {
         // Get the generation based on the region ID
@@ -33,13 +38,27 @@ export default function PokemonsList({ regionId , pokemons, setPokemons, maxSele
         }));
 
         setPokemonsAvatars(pokemonsSelected);
+
+        // set timer to simulate loading
+        setTimeout(() => {
+          setLoading(false)
+        }, 2000);
+          
       } catch (error) {
-        console.error('Error fetching Pokémon:', error);
+        setTimeout(() => {
+          setLoading(false)
+          setError(true)
+          console.error('Error fetching Pokémon:', error);
+        }, 2000);
       }
     };
 
     fetchPokemons();
-  }, [regionId, pokemons]);
+
+    return () => {
+      setPokemonsAvatars([]);
+    }
+  }, [regionId]);
 
   const handlePokemonSelection = (pokemon) => {
     const selectedPokemon = pokemons.find((p) => p.name === pokemon.name);
@@ -76,44 +95,78 @@ export default function PokemonsList({ regionId , pokemons, setPokemons, maxSele
         pokemonsWarningMessage && (
           <Alert severity="warning">{pokemonsWarningMessage}</Alert>
         )
-      }  
-      <Grid
-        container
-        sx={{
-          height: '300px',
-          padding: '.5rem 1rem',
-          overflowY: "scroll",
-          overflowX: "hidden"
-        }}
-      >
-        {pokemonsAvatars.map((pokemon) => (
-          <Grid
-            item
-            xs={3}
-            sm={2}
-            md={2}
-            lg={1.3}
-            key={pokemon.name}
-          >
-            <IconButton
-              aria-label={`icon-avatar${pokemon.name}`}
-              onClick={() => handlePokemonSelection(pokemon)}
-              sx={{
-                backgroundColor: pokemon.disabled ? '#e3f2fd' : 'transparent',
-              }}
+      }
+      {
+        error && (
+          <Alert severity="error">Error fetching Pokémon</Alert>
+        )
+      }
+      {
+        loading ? (
+            <PokemonListSkeleton/>
+        ) : (
+        <Grid
+          container
+          sx={{
+            height: '300px',
+            display: 'flex',
+            justifyContent: 'center',
+            padding: '.5rem 1rem',
+            overflowY: "auto",
+            overflowX: "hidden"
+          }}
+        >
+          {pokemonsAvatars.map((pokemon) => (
+            <Grid
+              item
+              xs={3}
+              sm={2}
+              md={2}
+              lg={1.3}
+              key={pokemon.name}
             >
-              <Avatar
-                src={pokemon.avatar}
-                alt={pokemon.name}
+              <IconButton
+                aria-label={`icon-avatar${pokemon.name}`}
+                onClick={() => handlePokemonSelection(pokemon)}
+                disableRipple={true}
                 sx={{
-                  width: 75,
-                  height: 75,
+                  backgroundColor: pokemon.disabled ? '#e3f2fd' : 'transparent',
+                  '&:hover': {
+                    backgroundColor: 'rgba(227, 242, 253, 0.72)',
+                  },
+                  '&:active': {
+                    backgroundColor: '#e3f2fd',
+                    'animation': 'select .1s ease'
+                  },
+
+                  '@keyframes select': {
+                    '0%': {
+                      transform: 'scale(1)'
+                    },
+                    '50%': {
+                      transform: 'scale(1.1)'
+                    },
+                    '100%': {
+                      transform: 'scale(1)'
+                    }
+                  }
                 }}
-              />
-            </IconButton>
-          </Grid>
+              >
+                <Avatar
+                  src={pokemon.avatar}
+                  alt={pokemon.name}
+                  sx={{
+                    width: 75,
+                    height: 75,
+                  }}
+                />
+              </IconButton>
+            </Grid>
         ))}
       </Grid>
+        
+      )
+        }
     </Paper>
   );
 }

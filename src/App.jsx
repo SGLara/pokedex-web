@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from '@mui/material';
 import { Route, Routes } from 'react-router';
-import { useListVals } from 'react-firebase-hooks/database';
 import { onValue } from 'firebase/database';
 import Login from './pages/Auth/Login';
 import RegionList from './pages/RegionList';
@@ -16,6 +15,7 @@ import NotFound from './pages/NotFound';
 
 export default function App() {
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   // Listen to the Firebase Auth state and set the local state.
   useEffect(() => {
@@ -42,20 +42,40 @@ export default function App() {
       }
     });
 
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+
     return () => unregisterAuthObserver();
   }, []);
 
   return (
-    <Container
-      maxWidth="lg"
-      sx={{
-        display: 'grid',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-      }}
-    >
+    <>
       {
+        loading && (
+          <Container
+            maxWidth="lg"
+            sx={{
+              display: 'grid',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '100vh',
+            }}
+          >
+            <img src="/pokemon-pikachu.gif" alt="Pikachu loading" width={200} />
+          </Container>
+        )
+      }
+      <Container
+        maxWidth="lg"
+        sx={{
+          display: 'grid',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+        }}
+      >
+        {
         isSignedIn && (
           <Navbar
             isSignedIn={isSignedIn}
@@ -63,47 +83,48 @@ export default function App() {
             firebaseAuth={firebase.auth()}
           />
         )
-      }
-      <Routes>
-        <Route
-          exact
-          path="/"
-          element={(
-            <Login
-              isSignedIn={isSignedIn}
-              uiConfig={uiConfig}
-              firebaseAuth={firebase.auth()}
-            />
-          )}
-        />
-        <Route
-          path="/regions"
-          element={(
-            <ProtectedRoute isSignedIn={isSignedIn}>
-              <RegionList
+        }
+        <Routes>
+          <Route
+            exact
+            path="/"
+            element={(
+              <Login
+                isSignedIn={isSignedIn}
+                uiConfig={uiConfig}
                 firebaseAuth={firebase.auth()}
               />
-            </ProtectedRoute>
+            )}
+          />
+          <Route
+            path="/regions"
+            element={(
+              <ProtectedRoute isSignedIn={isSignedIn}>
+                <RegionList
+                  firebaseAuth={firebase.auth()}
+                />
+              </ProtectedRoute>
           )}
-        />
-        <Route
-          path="/my-teams"
-          element={(
-            <ProtectedRoute isSignedIn={isSignedIn}>
-              <MyTeams />
-            </ProtectedRoute>
+          />
+          <Route
+            path="/my-teams"
+            element={(
+              <ProtectedRoute isSignedIn={isSignedIn}>
+                <MyTeams />
+              </ProtectedRoute>
           )}
-        />
-        <Route
-          path="/my-teams/:routeAction/:resourceIdURL/:regionNameURL?"
-          element={(
-            <ProtectedRoute isSignedIn={isSignedIn}>
-              <CreateTeamForm />
-            </ProtectedRoute>
+          />
+          <Route
+            path="/my-teams/:routeAction/:resourceIdURL/:regionNameURL?"
+            element={(
+              <ProtectedRoute isSignedIn={isSignedIn}>
+                <CreateTeamForm />
+              </ProtectedRoute>
           )}
-        />
-        <Route path="/*" element={<NotFound />} />
-      </Routes>
-    </Container>
+          />
+          <Route path="/*" element={<NotFound />} />
+        </Routes>
+      </Container>
+    </>
   );
 }

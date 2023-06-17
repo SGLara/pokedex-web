@@ -4,7 +4,7 @@
     <img src="./public/pokeball-icon.png" alt="Logo" width="80" height="80">
   </a>
 
-<h2 align="center">Pokexed WEB</h2>
+<h2 align="center">Pokedex WEB</h2>
 <h3 align="center">This is a Pokedex app that allows you to create pokemons teams</h3>
 </div>
 
