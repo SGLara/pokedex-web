@@ -124,7 +124,7 @@ export default function App() {
               </ProtectedRoute>
           )}
           />
-          <Route path="/*" element={<NotFoundGame />} />
+          <Route path="*" element={<NotFoundGame />} />
         </Routes>
       </Container>
     </>
