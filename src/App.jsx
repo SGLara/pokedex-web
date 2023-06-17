@@ -1,3 +1,5 @@
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable import/no-named-as-default */
 import React, { useEffect, useState } from 'react';
 import { Container } from '@mui/material';
 import { Route, Routes } from 'react-router';
@@ -11,7 +13,7 @@ import {
 } from './services/firebase.config';
 import ProtectedRoute from './pages/Auth/ProtectedRoute';
 import Navbar from './components/Navbar';
-import NotFound from './pages/NotFound';
+import NotFoundGame from './pages/NotFoundGame';
 
 export default function App() {
   const [isSignedIn, setIsSignedIn] = useState(false);
@@ -122,7 +124,7 @@ export default function App() {
               </ProtectedRoute>
           )}
           />
-          <Route path="/*" element={<NotFound />} />
+          <Route path="/*" element={<NotFoundGame />} />
         </Routes>
       </Container>
     </>
