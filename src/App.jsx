@@ -13,7 +13,7 @@ import {
 } from './services/firebase.config';
 import ProtectedRoute from './pages/Auth/ProtectedRoute';
 import Navbar from './components/Navbar';
-import NotFoundGame from './pages/NotFoundGame';
+import NotFoundGame from './pages/404';
 
 export default function App() {
   const [isSignedIn, setIsSignedIn] = useState(false);
