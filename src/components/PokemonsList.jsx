@@ -1,90 +1,36 @@
 /* eslint-disable react/prop-types */
 import {
-  Grid, Paper, IconButton, Avatar, Alert, Skeleton,
+  Alert,
+  Grid,
+  Paper,
 } from '@mui/material';
-import axios from 'axios';
-import NotFound from '../pages/NotFound';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import usePokemonsByRegion from '../hooks/usePokemonsByRegion';
+import PokemonItem from './PokemonItem';
 import PokemonListSkeleton from './skeletons_loaders/PokemonListSkeleton';
-import { set } from 'firebase/database';
 
-const POKEAPI = import.meta.env.VITE_POKEAPI_URL
-
-export default function PokemonsList({ regionId , pokemons, setPokemons, maxSelection, pokemonsWarningMessage, setPokemonsWarningMessage }) {
+export default function PokemonsList({
+  regionId,
+  pokemons,
+  setPokemons,
+  pokemonsWarningMessage,
+  setPokemonsWarningMessage,
+}) {
   const [pokemonsAvatars, setPokemonsAvatars] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  
-  useEffect(() => {
-    setLoading(true);
-    
-    const fetchPokemons = async () => {
-      try {
-        // Get the generation based on the region ID
-        const generationResponse = await axios.get(POKEAPI + `/generation/${regionId}`);
-        const generationData = generationResponse.data;
 
-        // Get the Pokémon species from the generation
-        const pokemonSpeciesUrls = generationData.pokemon_species.map((species) => species.name);
-        const pokemonResponses = await Promise.all(pokemonSpeciesUrls.map((name) => axios.get(POKEAPI + `/pokemon/${name}`)));
-        const pokemonData = pokemonResponses.map((response) => response.data);
+  const {
+    loading, error, handlePokemonSelection,
+  } = usePokemonsByRegion({
+    regionId,
+    setPokemonsAvatars,
+    pokemons,
+    setPokemons,
+    setPokemonsWarningMessage,
+  });
 
-        // Extract the relevant information from the Pokémon data
-        
-        const pokemonsSelected = pokemonData.map((pokemon) => ({
-          name: pokemon.name,
-          avatar: pokemon.sprites.front_default,
-          disabled: pokemons.find((p) => p.name === pokemon.name) ? true : false,
-        }));
-
-        setPokemonsAvatars(pokemonsSelected);
-
-        // set timer to simulate loading
-        setTimeout(() => {
-          setLoading(false)
-        }, 2000);
-          
-      } catch (error) {
-        setTimeout(() => {
-          setLoading(false)
-          setError(true)
-          console.error('Error fetching Pokémon:', error);
-        }, 2000);
-      }
-    };
-
-    fetchPokemons();
-
-    return () => {
-      setPokemonsAvatars([]);
-    }
-  }, [regionId]);
-
-  const handlePokemonSelection = (pokemon) => {
-    const selectedPokemon = pokemons.find((p) => p.name === pokemon.name);
-    const selectedCount = pokemons.length;
-
-    if (selectedCount >= maxSelection && !selectedPokemon) {
-      setPokemonsWarningMessage('You can only select up to 6 Pokémon');
-      return;
-    } else {
-      setPokemonsWarningMessage('');
-    }
-
-    if (selectedPokemon) {
-      setPokemons(pokemons.filter((p) => p.name !== pokemon.name));
-    } else {
-      setPokemons([...pokemons, pokemon]);
-    }
-
-    setPokemonsAvatars((prevPokemonsAvatars) =>
-      prevPokemonsAvatars.map((p) =>
-        p.name === pokemon.name
-          ? { ...p, disabled: !selectedPokemon }
-          : p
-      )
-    );
-  }
+  const handleClick = (pokemon) => {
+    handlePokemonSelection(pokemon);
+  };
 
   return (
     <Paper sx={{
@@ -103,70 +49,37 @@ export default function PokemonsList({ regionId , pokemons, setPokemons, maxSele
       }
       {
         loading ? (
-            <PokemonListSkeleton/>
+          <PokemonListSkeleton />
         ) : (
-        <Grid
-          container
-          sx={{
-            height: '300px',
-            display: 'flex',
-            justifyContent: 'center',
-            padding: '.5rem 1rem',
-            overflowY: "auto",
-            overflowX: "hidden"
-          }}
-        >
-          {pokemonsAvatars.map((pokemon) => (
-            <Grid
-              item
-              xs={3}
-              sm={2}
-              md={2}
-              lg={1.3}
-              key={pokemon.name}
-            >
-              <IconButton
-                aria-label={`icon-avatar${pokemon.name}`}
-                onClick={() => handlePokemonSelection(pokemon)}
-                disableRipple={true}
-                sx={{
-                  backgroundColor: pokemon.disabled ? '#e3f2fd' : 'transparent',
-                  '&:hover': {
-                    backgroundColor: 'rgba(227, 242, 253, 0.72)',
-                  },
-                  '&:active': {
-                    backgroundColor: '#e3f2fd',
-                    'animation': 'select .1s ease'
-                  },
-
-                  '@keyframes select': {
-                    '0%': {
-                      transform: 'scale(1)'
-                    },
-                    '50%': {
-                      transform: 'scale(1.1)'
-                    },
-                    '100%': {
-                      transform: 'scale(1)'
-                    }
-                  }
-                }}
+          <Grid
+            container
+            sx={{
+              height: '300px',
+              display: 'flex',
+              justifyContent: 'center',
+              padding: '.5rem 1rem',
+              overflowY: 'auto',
+              overflowX: 'hidden',
+            }}
+          >
+            {pokemonsAvatars.map((pokemon) => (
+              <Grid
+                item
+                xs={3}
+                sm={2}
+                md={2}
+                lg={1.3}
+                key={pokemon.name}
               >
-                <Avatar
-                  src={pokemon.avatar}
-                  alt={pokemon.name}
-                  sx={{
-                    width: 75,
-                    height: 75,
-                  }}
+                <PokemonItem
+                  pokemon={pokemon}
+                  handleClick={handleClick}
                 />
-              </IconButton>
-            </Grid>
-        ))}
-      </Grid>
-        
-      )
-        }
+              </Grid>
+            ))}
+          </Grid>
+        )
+      }
     </Paper>
   );
 }
