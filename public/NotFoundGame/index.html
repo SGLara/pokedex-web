@@ -1,0 +1,48 @@
+<!doctype html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Error 404 (Not Found)</title>
+    <link rel="stylesheet" href="game.css" />
+    <link rel="styleshet" href="https://fonts.googleapis.com/css?family=Roboto" />
+    <style>
+        body {
+            padding: 0;
+            margin: 0
+        }
+    </style>
+    <script src="pixi.min.js"></script>
+    <audio id="route1" autoplay="true">
+        <source src="./route1.mp3" type="audio/mp3">
+        <script src="./game.js"></script>
+        Your browser does not support the audio element.
+    </audio>
+    <script>
+        /* Mute Function */
+        function toggleSound () {
+            var audioElem = document.getElementById('route1');
+            if (audioElem.paused) {
+                document.getElementById('Mute').innerHTML = "MUTE";
+                audioElem.play();
+            }
+            else {
+                document.getElementById('Mute').innerHTML = "PLAY";
+                audioElem.pause();
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div id="desc">PAGE NOT FOUND</div>
+    <div id="catch">Click on the Pokemon to Catch 'em All</div>
+    <div id="score">
+        <span id="sc">0</span>
+        <img src="./404.png" user-select: none />
+    </div>
+    <div id="Wrapper">
+        <div id="Mute" onclick="toggleSound()">
+            <span class="mute-button">MUTE</span>
+        </div>
+    </div>
+</body>

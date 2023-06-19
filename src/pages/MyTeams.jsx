@@ -1,72 +1,35 @@
-import {
-  Card,
-  CardContent,
-  Grid,
-  Typography,
-  Avatar,
-  CardActions,
-  AvatarGroup,
-  Chip,
-  Button,
-  ButtonGroup,
-  IconButton,
-  Divider,
-} from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import { useListVals } from 'react-firebase-hooks/database';
-import { Link } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import {
-  db, ref, set, firebase,
-} from '../services/firebase.config';
+  Avatar,
+  AvatarGroup,
+  ButtonGroup,
+  Card,
+  CardActions,
+  CardContent,
+  Chip,
+  Divider,
+  Grid,
+  IconButton,
+  Typography,
+} from '@mui/material';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import NoTeamsAvailable from '../components/NoTeamsAvailable';
+import useMyTeams from '../hooks/useMyTeams';
 
 export default function MyTeams() {
-  const authUserUid = firebase.auth().currentUser.uid;
-  const [values] = useListVals(ref(db, `pokedex_web/${authUserUid}/teams_created`));
-  const [myTeams, setMyTeams] = useState([]);
+  const { myTeams, destroy } = useMyTeams();
 
-  useEffect(() => {
-    setMyTeams(values);
-
-    return () => {
-      setMyTeams([]);
-    };
-  }, [values]);
-
-  const handleDelete = (id) => {
-    const newTeams = myTeams.filter((team) => team.id !== id);
-    setMyTeams(newTeams);
-    set(ref(db, `pokedex_web/${authUserUid}/teams_created`), newTeams);
+  const handleDelete = (teamId) => {
+    destroy(teamId);
   };
 
   return (
     <Grid container maxWidth="md" minWidth={900} spacing={2}>
       {
         myTeams.length === 0 && (
-          <Grid item xs={12}>
-            <Typography variant="h2" component="h1" align="center">
-              There are no teams yet
-              {' '}
-              <br />
-              😧
-            </Typography>
-            <Typography variant="h4" component="h2" align="center">
-              Please create one in the
-              <Button
-                variant="outlined"
-                component={Link}
-                color="primary"
-                to="/regions"
-                sx={{
-                  mx: 1,
-                }}
-              >
-                Region List
-              </Button>
-              page
-            </Typography>
-          </Grid>
+        <NoTeamsAvailable />
         )
       }
       {

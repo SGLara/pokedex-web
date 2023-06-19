@@ -1,32 +1,23 @@
-import {
-  Grid, Card, CardContent, Typography, CardActions, Button,
-} from '@mui/material';
-import React, { useEffect, useState } from 'react';
+/* eslint-disable import/no-named-as-default */
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable react/prop-types */
 import CreateIcon from '@mui/icons-material/Create';
-import axios from 'axios';
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Grid,
+  Typography,
+} from '@mui/material';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import useRegionList from '../hooks/useRegionList';
 
-const POKEAPI = `${import.meta.env.VITE_POKEAPI_URL}/region`;
-
-export default function RegionList({firebaseAuth}) {
-  const [regions, setRegions] = useState([]);
+export default function RegionList({ firebaseAuth }) {
   const user = firebaseAuth.currentUser;
 
-  useEffect(() => {
-    axios.get(POKEAPI)
-      .then((response) => {
-        setRegions(response.data.results);
-      })
-      .catch((error) => {
-        console.error('Error fetching regions:', error);
-      });
-  }, []);
-
-  const getRegionId = (region) => {
-    const regionId = region.url.split('/').slice(-2)[0];
-
-    return regionId;
-  };
+  const { regions, getRegionId } = useRegionList();
 
   return (
     <Grid maxWidth="md" container spacing={2}>
@@ -37,15 +28,19 @@ export default function RegionList({firebaseAuth}) {
           marginBottom: '1rem',
         }}
       >
-      <Typography
-        variant="h4"
-        component="h1"
-        sx={{
-          marginBottom: '1rem',
-        }}
-      >
-        Hi {user.displayName} 👋 ,
-      </Typography>
+        <Typography
+          variant="h4"
+          component="h1"
+          sx={{
+            marginBottom: '1rem',
+          }}
+        >
+          Hi
+          {' '}
+          {user.displayName}
+          {' '}
+          👋 ,
+        </Typography>
       </Grid>
       {regions.map((region) => (
         <Grid item xs={12} sm={6} md={4} lg={3} key={region.name}>

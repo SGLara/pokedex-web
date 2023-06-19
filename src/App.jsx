@@ -1,53 +1,22 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable import/no-named-as-default */
+import React from 'react';
 import { Container } from '@mui/material';
 import { Route, Routes } from 'react-router';
-import { onValue } from 'firebase/database';
 import Login from './pages/Auth/Login';
 import RegionList from './pages/RegionList';
 import MyTeams from './pages/MyTeams';
 import CreateTeamForm from './pages/CreateTeamForm';
 import {
-  uiConfig, firebase, db, ref, set,
+  uiConfig, firebase,
 } from './services/firebase.config';
 import ProtectedRoute from './pages/Auth/ProtectedRoute';
 import Navbar from './components/Navbar';
-import NotFound from './pages/NotFound';
+import NotFoundGame from './pages/404';
+import useSignInUser from './hooks/useSignInUser';
 
 export default function App() {
-  const [isSignedIn, setIsSignedIn] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  // Listen to the Firebase Auth state and set the local state.
-  useEffect(() => {
-    const unregisterAuthObserver = firebase.auth().onAuthStateChanged((user) => {
-      setIsSignedIn(!!user);
-
-      if (user) {
-        // Get the user's data from the database by uid provided by Firebase Auth
-        const userRef = ref(db, `pokedex_web/${user.uid}`);
-        onValue(userRef, (snapshot) => {
-          const userData = snapshot.val();
-
-          if (!userData) {
-            // If the user doesn't exist, create a new user in the database
-            set(userRef, {
-              uid: user.uid,
-              email: user.email,
-              displayName: user.displayName,
-              photoURL: user.photoURL,
-            });
-            console.log(userData);
-          }
-        });
-      }
-    });
-
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-
-    return () => unregisterAuthObserver();
-  }, []);
+  const { loading, isSignedIn, setIsSignedIn } = useSignInUser();
 
   return (
     <>
@@ -122,7 +91,7 @@ export default function App() {
               </ProtectedRoute>
           )}
           />
-          <Route path="/*" element={<NotFound />} />
+          <Route path="*" element={<NotFoundGame />} />
         </Routes>
       </Container>
     </>
