@@ -33,6 +33,7 @@ export default function RegionList({ firebaseAuth }) {
           component="h1"
           sx={{
             marginBottom: '1rem',
+            color: '#272727',
           }}
         >
           Hi

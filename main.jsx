@@ -1,6 +1,6 @@
+import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import { BrowserRouter } from 'react-router-dom';
 import App from './src/App';
 
@@ -8,10 +8,18 @@ const theme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#e3f2fd',
+      main: '#ffcb05',
     },
-    secondary: {
-      main: '#091396',
+  },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: () => ({
+        body: {
+          backgroundImage: 'url("./pikachu-bg.jpg")',
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+        },
+      }),
     },
   },
 });
