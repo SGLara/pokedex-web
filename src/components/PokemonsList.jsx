@@ -7,7 +7,7 @@ import {
 import React, { useState } from 'react';
 import usePokemonsByRegion from '../hooks/usePokemonsByRegion';
 import PokemonItem from './PokemonItem';
-import PokemonListSkeleton from './skeletons_loaders/PokemonListSkeleton';
+import PokemonListSkeleton from './loaders/PokemonListSkeleton';
 
 export default function PokemonsList({
   regionId,
