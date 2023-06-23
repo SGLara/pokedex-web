@@ -7,6 +7,7 @@ import {
   Card,
   CardActions,
   CardContent,
+  Divider,
   Grid,
   Typography,
 } from '@mui/material';
@@ -20,7 +21,18 @@ export default function RegionList({ firebaseAuth }) {
   const { regions, getRegionId } = useRegionList();
 
   return (
-    <Grid maxWidth="md" container spacing={2}>
+    <Grid
+      maxWidth="md"
+      container
+      spacing={2}
+      sx={{
+        '@media (max-width: 600px)': {
+          marginTop: '5rem',
+          marginBottom: '5rem',
+          padding: '0 1rem',
+        },
+      }}
+    >
       <Grid
         item
         xs={12}
@@ -33,6 +45,7 @@ export default function RegionList({ firebaseAuth }) {
           component="h1"
           sx={{
             marginBottom: '1rem',
+            color: '#272727',
           }}
         >
           Hi
@@ -43,12 +56,18 @@ export default function RegionList({ firebaseAuth }) {
         </Typography>
       </Grid>
       {regions.map((region) => (
-        <Grid item xs={12} sm={6} md={4} lg={3} key={region.name}>
+        <Grid item xs={6} sm={4} md={3} lg={3} key={region.name}>
           <Card sx={{
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
+            padding: '2.5rem 0',
+            borderRadius: '50%',
+            // change the padding when screen size changes
+            '@media (max-width: 600px)': {
+              padding: '2rem 0',
+            },
           }}
           >
             <CardContent>
@@ -62,6 +81,13 @@ export default function RegionList({ firebaseAuth }) {
                 {region.name}
               </Typography>
             </CardContent>
+            <Divider
+              variant="fullWidth"
+              flexItem
+              sx={{
+                borderTop: '1px solid #ffcb05',
+              }}
+            />
             <CardActions>
               <Button
                 variant="contained"
@@ -71,7 +97,7 @@ export default function RegionList({ firebaseAuth }) {
                 component={Link}
                 to={`/my-teams/create/${getRegionId(region)}/${region.name}`}
               >
-                Create Team
+                Create
               </Button>
             </CardActions>
           </Card>

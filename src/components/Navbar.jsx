@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import MenuIcon from '@mui/icons-material/Menu';
 import {
   AppBar,
   Avatar,
@@ -12,7 +13,6 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 

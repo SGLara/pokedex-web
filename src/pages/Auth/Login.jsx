@@ -1,8 +1,8 @@
-import { Box, Paper, Typography } from '@mui/material';
+import { Paper, Typography } from '@mui/material';
+import 'firebase/compat/auth';
 import React from 'react';
 import { StyledFirebaseAuth } from 'react-firebaseui';
 import { Navigate } from 'react-router';
-import 'firebase/compat/auth';
 
 // eslint-disable-next-line react/prop-types
 export default function Login({ isSignedIn, uiConfig, firebaseAuth }) {
@@ -14,9 +14,10 @@ export default function Login({ isSignedIn, uiConfig, firebaseAuth }) {
         flexDirection: 'column',
         alignItems: 'center',
         padding: '3rem',
-        gap: '7rem',
-        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        gap: '3rem',
+        backgroundColor: '#272727',
         border: '1px solid #e3f2fd',
+        borderRadius: '1rem',
       }}
     >
       {
@@ -24,16 +25,15 @@ export default function Login({ isSignedIn, uiConfig, firebaseAuth }) {
           <Navigate to="/regions" />
         )
       }
-      <Typography variant="h5">
-        Please Login to use this amazing app!
+      <Typography variant="h4">
+        Sign In
       </Typography>
-      <Box>
-        <StyledFirebaseAuth
-          uiCallback={(ui) => ui.disableAutoSignIn()}
-          uiConfig={uiConfig}
-          firebaseAuth={firebaseAuth}
-        />
-      </Box>
+      <img src="pokeball-icon.png" alt="pokemon-ball" width={50} />
+      <StyledFirebaseAuth
+        uiCallback={(ui) => ui.disableAutoSignIn()}
+        uiConfig={uiConfig}
+        firebaseAuth={firebaseAuth}
+      />
     </Paper>
   );
 }
