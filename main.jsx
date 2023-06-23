@@ -18,6 +18,7 @@ const theme = createTheme({
           backgroundImage: 'url("./pikachu-bg.jpg")',
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
+          backgroundColor: '#ffe938',
         },
       }),
     },

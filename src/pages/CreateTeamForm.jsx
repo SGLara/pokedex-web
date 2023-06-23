@@ -54,7 +54,7 @@ export default function CreateTeamForm() {
         flexDirection: 'column',
         alignItems: 'center',
         padding: '3rem',
-        backgroundColor: 'rgb(43, 43, 43)',
+        backgroundColor: '#272727',
         border: '1px solid #e3f2fd',
       }}
     >
