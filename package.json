@@ -26,7 +26,8 @@
     "react-firebaseui": "^6.0.0",
     "react-router": "^6.11.2",
     "react-router-dom": "^6.11.2",
-    "reactfire": "^4.2.2"
+    "reactfire": "^4.2.2",
+    "uuid": "^9.0.0"
   },
   "eslintConfig": {
     "extends": [
