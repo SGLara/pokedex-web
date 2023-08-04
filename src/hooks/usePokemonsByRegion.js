@@ -38,16 +38,11 @@ export default function usePokemonsByRegion ({
 
         setPokemonsAvatars(pokemonsSelected);
 
-        // set timer to simulate loading
-        setTimeout(() => {
-          setLoading(false);
-        }, 2000);
+        setLoading(false);
       } catch (error) {
-        setTimeout(() => {
-          setLoading(false);
-          setError(true);
-          console.error('Error fetching Pokémon:', error);
-        }, 2000);
+        setLoading(false);
+        setError(true);
+        console.error('Error fetching Pokémon:', error);
       }
     };
 

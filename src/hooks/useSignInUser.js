@@ -33,9 +33,7 @@ export default function useSignInUser() {
       }
     });
 
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    setLoading(false);
 
     return () => unregisterAuthObserver();
   }, []);
