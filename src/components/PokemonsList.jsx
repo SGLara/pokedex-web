@@ -33,10 +33,7 @@ export default function PokemonsList({
   };
 
   return (
-    <Paper sx={{
-      margin: '1.5rem 0',
-    }}
-    >
+    <Paper>
       {
         pokemonsWarningMessage && (
           <Alert severity="warning">{pokemonsWarningMessage}</Alert>

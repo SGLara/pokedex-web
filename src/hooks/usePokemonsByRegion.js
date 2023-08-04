@@ -33,7 +33,7 @@ export default function usePokemonsByRegion ({
         const pokemonsSelected = pokemonData.map((pokemon) => ({
           name: pokemon.name,
           avatar: pokemon.sprites.front_default,
-          disabled: !!pokemons.find((p) => p.name === pokemon.name),
+          selected: !!pokemons.find((p) => p.name === pokemon.name),
         }));
 
         setPokemonsAvatars(pokemonsSelected);
@@ -56,9 +56,10 @@ export default function usePokemonsByRegion ({
     return () => {
       setPokemonsAvatars([]);
     };
-  }, [regionId]);
+  }, [regionId, pokemons]);
 
   const handlePokemonSelection = (pokemon) => {
+    console.log(pokemon);
     const selectedPokemon = pokemons.find((p) => p.name === pokemon.name);
     const selectedCount = pokemons.length;
 
@@ -77,7 +78,7 @@ export default function usePokemonsByRegion ({
     setPokemonsAvatars(
       (prevPokemonsAvatars) => prevPokemonsAvatars.map(
         (p) => (p.name === pokemon.name
-          ? { ...p, disabled: !selectedPokemon }
+          ? { ...p, selected: !selectedPokemon }
           : p),
       ),
     );

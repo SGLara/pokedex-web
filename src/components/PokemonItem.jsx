@@ -9,7 +9,7 @@ export default function PokemonItem({ pokemon, handleClick }) {
       onClick={() => handleClick(pokemon)}
       disableRipple
       sx={{
-        backgroundColor: pokemon.disabled ? '#e3f2fd' : 'transparent',
+        backgroundColor: pokemon.selected ? '#e3f2fd' : 'transparent',
         '&:hover': {
           backgroundColor: 'rgba(227, 242, 253, 0.72)',
         },
