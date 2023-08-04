@@ -59,7 +59,6 @@ export default function usePokemonsByRegion ({
   }, [regionId, pokemons]);
 
   const handlePokemonSelection = (pokemon) => {
-    console.log(pokemon);
     const selectedPokemon = pokemons.find((p) => p.name === pokemon.name);
     const selectedCount = pokemons.length;
 

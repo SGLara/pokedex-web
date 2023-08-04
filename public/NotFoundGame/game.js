@@ -32,7 +32,6 @@ function drawPokeball(x, y) {
   ball.x = x + 25;
   ball.y = y + 25;
   ball.type = 'ball';
-  // console.log(ball.x);
   PIXI.loader.reset();
 }
 
@@ -44,20 +43,17 @@ function drawPokemon() {
   poke.on('click', () => {
     score += 1;
     document.getElementById('sc').innerHTML = score;
-    console.log(score);
     stage.removeChild(poke);
     drawPokeball(poke.x, poke.y);
   });
   poke.on('touchstart', () => {
     score += 1;
     document.getElementById('sc').innerHTML = score;
-    console.log(score);
     stage.removeChild(poke);
     drawPokeball(poke.x, poke.y);
   });
   PIXI.loader.reset();
   counter += 1;
-  // console.log(counter);
 }
 
 // Draw a Pokemon every .2 seconds, stop after 404 - this function fires automaticallu

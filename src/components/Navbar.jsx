@@ -45,7 +45,6 @@ export default function Navbar({
         setAnchorElUser(null);
       })
       .catch((error) => {
-        console.log(error);
       });
   };
 

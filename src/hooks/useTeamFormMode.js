@@ -84,13 +84,6 @@ export default function useTeamFormMode({
     setPokemons,
   ]);
 
-  // const snapshots = ref(db, 'my_teams/');
-  // onValue(snapshots, (snapshot) => {
-  // const data = snapshot.val();
-
-  // console.log(data);
-  // });
-
   const submitForm = (e) => {
     e.preventDefault();
 
