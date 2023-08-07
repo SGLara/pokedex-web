@@ -1,4 +1,3 @@
-<br />
 <div align="center">
   <a href="https://github.com/github_username/repo_name">
     <img src="./public/pokeball-icon.png" alt="Logo" width="80" height="80">
@@ -54,7 +53,6 @@ To run the Pokedex WEB application, you need to set up the required environment 
    VITE_FIREBASE_API_KEY=
    VITE_FIREBASE_AUTH_DOMAIN=
    VITE_FIREBASE_PROJECT_ID=
-   VITE_FIREBASE_DATABASE_URL=
    VITE_FIREBASE_STORAGE_BUCKET=
    VITE_FIREBASE_MESSAGING_SENDER_ID=
    VITE_FIREBASE_APP_ID=
@@ -82,12 +80,43 @@ To enable authentication with Google and Facebook, follow the steps below:
 
 5. Save the changes.
 
+## Realtime Database Setup
+
+To enable the realtime database functionality for your Pokedex WEB application, follow these steps to set up Firebase Realtime Database:
+
+1. Go to the Firebase console and open your project.
+
+2. Navigate to the ```Compilation > Realtime Database``` section.
+
+3. Click on "Create database" to set up a new Firebase Realtime Database.
+
+4. Choose the "Start in test mode" option for now. You can adjust the security rules later based on your application's needs.
+
+5. Once the database is created, you'll see its URL. It will look something like: `https://<your-project-id>.firebaseio.com/`.
+
+6. Open the `.env` file in your project's root directory.
+
+7. Add the following environment variable to your `.env` file:
+
+   ```plaintext
+   VITE_FIREBASE_REALTIME_DATABASE_URL=<your-firebase-realtime-database-url>
+   ```
+8. Save the `.env` file.
+
+9. In your application code, you can now use the Firebase Realtime Database SDK to interact with the database. You can import the SDK and start using it in your components or services.
+
+> Feel free to explore the Firebase Realtime Database documentation for more information on reading and writing data: [Firebase Realtime Database Documentation](https://firebase.google.com/docs/database).
+>
+> With the Firebase Realtime Database integrated into your Pokedex WEB application, you can now store and retrieve data in real time for a dynamic user experience.
+>
+> Make sure to replace `<your-firebase-realtime-database-url>` with the actual URL you obtained from Firebase. This addition to your documentation should provide users with a clear guide on how to set up and use the Firebase Realtime Database in your Pokedex WEB application. 
+
 ## Usage
 
 To start the Pokedex WEB application, run the following command:
 
 ```bash
-npm start
+npm run dev
 ```
 
 The application will be accessible at `http://localhost:5173`.
@@ -100,10 +129,6 @@ The application will be accessible at `http://localhost:5173`.
 - The application utilizes Firebase for authentication and stores user data in the Firebase database.
 
 Feel free to explore the application and enjoy using the Pokedex WEB!
-
-
-
-
 
 
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB

@@ -1,7 +1,9 @@
 import { onValue } from 'firebase/database';
 import { useEffect, useState } from 'react';
 import {
-  db, ref, set, firebase,
+  db,
+  firebase,
+  ref, set,
 } from '../services/firebase.config';
 
 export default function useSignInUser() {
@@ -26,15 +28,12 @@ export default function useSignInUser() {
               displayName: user.displayName,
               photoURL: user.photoURL,
             });
-            console.log(userData);
           }
         });
       }
     });
 
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    setLoading(false);
 
     return () => unregisterAuthObserver();
   }, []);

@@ -1,5 +1,6 @@
 import { Grid, Skeleton } from '@mui/material';
 import React from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function PokemonListSkeleton() {
   return (
@@ -16,10 +17,10 @@ export default function PokemonListSkeleton() {
       }}
     >
       {
-            Array.from(Array(27).keys()).map((index) => (
+            Array.from(Array(27).keys()).map(() => (
               <Grid
                 item
-                key={index}
+                key={uuidv4()}
                 xs={3}
                 sm={2}
                 md={2}

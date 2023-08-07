@@ -3,12 +3,12 @@ import EditIcon from '@mui/icons-material/Edit';
 import {
   Avatar,
   AvatarGroup,
+  Box,
   ButtonGroup,
   Card,
   CardActions,
   CardContent,
   Chip,
-  Divider,
   Grid,
   IconButton,
   Typography,
@@ -26,7 +26,21 @@ export default function MyTeams() {
   };
 
   return (
-    <Grid container maxWidth="md" minWidth={900} spacing={2}>
+    <Grid
+      container
+      spacing={2}
+      maxWidth="lg"
+      sx={{
+        '@media (max-width: 600px)': {
+          paddingTop: '6rem',
+          paddingBottom: '2rem',
+        },
+        '@media (max-width: 1199px)': {
+          paddingTop: '6rem',
+          paddingBottom: '2rem',
+        },
+      }}
+    >
       {
         myTeams.length === 0 && (
         <NoTeamsAvailable />
@@ -34,25 +48,36 @@ export default function MyTeams() {
       }
       {
         myTeams.map((team) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={team.id}>
+          <Grid
+            item
+            xs={6}
+            sm={6}
+            md={6}
+            lg={4}
+            key={team.id}
+            sx={{
+              // padding: '0px !important',
+            }}
+          >
             <Card sx={{
               display: 'flex',
               flexDirection: 'column',
-              width: '100%',
+              justifyContent: 'space-between',
+              alignContent: 'space-between',
+              height: '100%',
             }}
             >
-              <div style={{
+              <Box style={{
                 display: 'flex',
                 justifyContent: 'flex-end',
                 width: '100%',
-                padding: '0.5rem',
               }}
               >
                 <Typography variant="h4">
                   #
                   {team.id}
                 </Typography>
-              </div>
+              </Box>
               <CardContent>
                 <Typography
                   variant="h5"
@@ -80,7 +105,35 @@ export default function MyTeams() {
                     color: 'black',
                   }}
                 />
+                {
+                team.pokemons.length > 0
+                && (
+                <AvatarGroup
+                  max={4}
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: '1rem',
+                  }}
+                >
+                  {
+                      team.pokemons.map((pokemon) => (
+                        <Avatar
+                          sx={{
+                            backgroundColor: 'white',
+                          }}
+                          key={pokemon.name}
+                          alt={pokemon.name}
+                          src={pokemon.avatar}
+                        />
+                      ))
+                      }
+                </AvatarGroup>
+                )
+              }
               </CardContent>
+
               <CardActions sx={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -89,41 +142,19 @@ export default function MyTeams() {
                 gap: '0.5rem',
               }}
               >
-                {
-                  team.pokemons.length > 0
-                  && (
-                    <>
-                      <AvatarGroup max={4}>
-                        {
-                        team.pokemons.map((pokemon) => (
-                          <Avatar
-                            sx={{
-                              backgroundColor: 'white',
-                            }}
-                            key={pokemon.name}
-                            alt={pokemon.name}
-                            src={pokemon.avatar}
-                          />
-                        ))
-                        }
-                      </AvatarGroup>
-                      <Divider variant="middle" flexItem sx={{ mt: 2 }} />
-                      <ButtonGroup>
-                        <IconButton
-                          component={Link}
-                          to={`/my-teams/edit/${team.id}`}
-                        >
-                          <EditIcon />
-                        </IconButton>
-                        <IconButton
-                          onClick={() => handleDelete(team.id)}
-                        >
-                          <DeleteIcon sx={{ color: 'red' }} />
-                        </IconButton>
-                      </ButtonGroup>
-                    </>
-                  )
-                }
+                <ButtonGroup>
+                  <IconButton
+                    component={Link}
+                    to={`/my-teams/edit/${team.id}`}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton
+                    onClick={() => handleDelete(team.id)}
+                  >
+                    <DeleteIcon sx={{ color: 'red' }} />
+                  </IconButton>
+                </ButtonGroup>
               </CardActions>
             </Card>
           </Grid>

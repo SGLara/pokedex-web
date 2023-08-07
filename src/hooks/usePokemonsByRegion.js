@@ -1,11 +1,9 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
-
-const POKEAPI = import.meta.env.VITE_POKEAPI_URL
+import { getPokemonsByRegionId } from '../services/pokeapi';
 
 const maxSelection = 6;
 
-export default function usePokemonsByRegion ({
+export default function usePokemonsByRegion({
   regionId,
   setPokemonsAvatars,
   pokemons,
@@ -20,34 +18,20 @@ export default function usePokemonsByRegion ({
 
     const fetchPokemons = async () => {
       try {
-        // Get the generation based on the region ID
-        const generationResponse = await axios.get(`${POKEAPI}/generation/${regionId}`);
-        const generationData = generationResponse.data;
-
-        // Get the Pokémon species from the generation
-        const pokemonSpeciesUrls = generationData.pokemon_species.map((species) => species.name);
-        const pokemonResponses = await Promise.all(pokemonSpeciesUrls.map((name) => axios.get(`${POKEAPI}/pokemon/${name}`)));
-        const pokemonData = pokemonResponses.map((response) => response.data);
-
+        const pokemonData = await getPokemonsByRegionId(regionId);
         // Extract the relevant information from the Pokémon data
         const pokemonsSelected = pokemonData.map((pokemon) => ({
           name: pokemon.name,
           avatar: pokemon.sprites.front_default,
-          disabled: !!pokemons.find((p) => p.name === pokemon.name),
+          selected: !!pokemons.find((p) => p.name === pokemon.name),
         }));
 
         setPokemonsAvatars(pokemonsSelected);
 
-        // set timer to simulate loading
-        setTimeout(() => {
-          setLoading(false);
-        }, 2000);
-      } catch (error) {
-        setTimeout(() => {
-          setLoading(false);
-          setError(true);
-          console.error('Error fetching Pokémon:', error);
-        }, 2000);
+        setLoading(false);
+      } catch (err) {
+        setLoading(false);
+        setError(true);
       }
     };
 
@@ -77,11 +61,11 @@ export default function usePokemonsByRegion ({
     setPokemonsAvatars(
       (prevPokemonsAvatars) => prevPokemonsAvatars.map(
         (p) => (p.name === pokemon.name
-          ? { ...p, disabled: !selectedPokemon }
+          ? { ...p, selected: !selectedPokemon }
           : p),
       ),
     );
-  }
-    
-    return { loading, error, handlePokemonSelection };
+  };
+
+  return { loading, error, handlePokemonSelection };
 }
