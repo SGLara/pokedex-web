@@ -13,6 +13,7 @@ import ProtectedRoute from './pages/Auth/ProtectedRoute';
 import CreateTeamForm from './pages/CreateTeamForm';
 import MyTeams from './pages/MyTeams';
 import RegionList from './pages/RegionList';
+
 import {
   firebase,
   uiConfig,
@@ -23,7 +24,23 @@ export default function App() {
 
   return (
     loading
-      ? <PikachuLoading />
+      ? (
+        <Container
+          maxWidth="xl"
+          sx={{
+            display: 'grid',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh',
+            width: '100%',
+            backgroundColor: '#fee939',
+            padding: '0',
+            margin: '0',
+          }}
+        >
+          <PikachuLoading />
+        </Container>
+      )
       : <RenderedView isSignedIn={isSignedIn} setIsSignedIn={setIsSignedIn} />
   );
 }

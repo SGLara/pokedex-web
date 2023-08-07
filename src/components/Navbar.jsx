@@ -42,9 +42,6 @@ export default function Navbar({
     firebaseAuth.signOut()
       .then(() => {
         setIsSignedIn(false);
-        setAnchorElUser(null);
-      })
-      .catch((error) => {
       });
   };
 
