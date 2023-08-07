@@ -1,11 +1,9 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
-
-const POKEAPI = import.meta.env.VITE_POKEAPI_URL
+import { getPokemonsByRegionId } from '../services/pokeapi';
 
 const maxSelection = 6;
 
-export default function usePokemonsByRegion ({
+export default function usePokemonsByRegion({
   regionId,
   setPokemonsAvatars,
   pokemons,
@@ -20,15 +18,7 @@ export default function usePokemonsByRegion ({
 
     const fetchPokemons = async () => {
       try {
-        // Get the generation based on the region ID
-        const generationResponse = await axios.get(`${POKEAPI}/generation/${regionId}`);
-        const generationData = generationResponse.data;
-
-        // Get the Pokémon species from the generation
-        const pokemonSpeciesUrls = generationData.pokemon_species.map((species) => species.name);
-        const pokemonResponses = await Promise.all(pokemonSpeciesUrls.map((name) => axios.get(`${POKEAPI}/pokemon/${name}`)));
-        const pokemonData = pokemonResponses.map((response) => response.data);
-
+        const pokemonData = await getPokemonsByRegionId(regionId);
         // Extract the relevant information from the Pokémon data
         const pokemonsSelected = pokemonData.map((pokemon) => ({
           name: pokemon.name,
@@ -39,10 +29,9 @@ export default function usePokemonsByRegion ({
         setPokemonsAvatars(pokemonsSelected);
 
         setLoading(false);
-      } catch (error) {
+      } catch (err) {
         setLoading(false);
         setError(true);
-        console.error('Error fetching Pokémon:', error);
       }
     };
 
@@ -51,7 +40,7 @@ export default function usePokemonsByRegion ({
     return () => {
       setPokemonsAvatars([]);
     };
-  }, [regionId, pokemons]);
+  }, [regionId]);
 
   const handlePokemonSelection = (pokemon) => {
     const selectedPokemon = pokemons.find((p) => p.name === pokemon.name);
@@ -76,7 +65,7 @@ export default function usePokemonsByRegion ({
           : p),
       ),
     );
-  }
-    
-    return { loading, error, handlePokemonSelection };
+  };
+
+  return { loading, error, handlePokemonSelection };
 }

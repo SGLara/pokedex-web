@@ -116,9 +116,6 @@ export default function CreateTeamForm() {
               disabled
             />
           </Grid>
-          {/*
-          Todo: add scroll to this component
-           */}
           <Grid item xs={12}>
             <PokemonsList
               regionId={regionId}
